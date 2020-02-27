@@ -61,7 +61,9 @@ body {
 }
 
 .cell.x::before,
-.cell.x::after {
+.cell.x::after,
+.cell.circle::before,
+.cell.circle::after {
     background-color: black;
 }
 
@@ -69,7 +71,9 @@ body {
 /* adding hover affect when the player is on the move */
 
 .board.x .cell:not(.x):not(.circle):hover::before,
-.board.x .cell:not(.x):not(.circle):hover::after {
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.circle):not(.x):hover::after,
+.board.circle .cell:not(.circle):not(.x):hover::before {
     background-color: lightgray;
 }
 
@@ -97,21 +101,59 @@ body {
 
 /* creating the shape of O */
 .cell.circle::before,
-.cell.circle::after {
+.cell.circle::after,
+.board.circle .cell:not(.circle):not(.x):hover::before, 
+.board.circle .cell:not(.circle):not(.x):hover::after {
     content: '';
     position: absolute;
     border-radius: 50%;
-    background-color: black;
 }
 
-.cell.circle::before {
+.cell.circle::before,
+.board.circle .cell:not(.circle):not(.x):hover::before {
     width: var(--mark-size);
     height: var(--mark-size);
-    background-color: black;
 }
 
-.cell.circle::after {
+.cell.circle::after,
+.board.circle .cell:not(.circle):not(.x):hover::after {
     width: calc(var(--mark-size) * 0.7);
     height: calc(var(--mark-size) * 0.7);
     background-color: white;
 }
+
+.winning-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0, .9);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+}
+
+.winning-message button {
+    font-size: 3rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+.winning-message.show {
+    display: flex;
+}
+
+
+
