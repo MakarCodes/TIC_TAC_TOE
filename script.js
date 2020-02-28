@@ -42,29 +42,60 @@ function handleClick(e) {
     // put mark on the screen and in the array
     placeMark(cell, currentClass)
     // check fro win
-    if (checkWin() == 'X') {
-        winningMessageTextElement.innerText = 'X wins!'
-        winningComunicate.classList.add('show');
-    } else if (checkWin() == 'O') {
-        winningMessageTextElement.innerText = 'O wins!'
-        winningComunicate.classList.add('show');
-    } 
-    // check for draw
-    // switch turns
-    swapTurns();
-    setBoardHoverClass();
+
+    if (checkWin()) {
+        endGame(false);
+    } else if (checkIfIsDraw()) {
+        endGame(true);
+    } else {
+        swapTurns();
+        setBoardHoverClass();
+    }
+}
+
+function checkIfIsDraw() {
+    //checking if every element of an array fullfill the callback condition and returns boolean true or false
+    return cellElements.every(cell => {
+        return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS);
+    })
+}
+
+function endGame(draw) {
+    if(draw) {
+
+        winningMessageTextElement.innerText = 'DRAW!'
+
+    } else {
+        let score_X = 0;
+        let score_O = 0;
+        cellElements.forEach(cell => {
+            if(cell.classList.contains(X_CLASS)){
+                score_X++;
+            } else if (cell.classList.contains(CIRCLE_CLASS)){
+                score_O++;
+            }
+        })
+
+        if(score_X > score_O) {
+            winningMessageTextElement.innerText = 'X is the winner!'
+        } else {
+            winningMessageTextElement.innerText = 'O is the winner!'
+        }
+        
+    }
+    winningComunicate.classList.add('show');
 }
 
 function checkWin() {
-    let winner = '';
+    let winnerIsExisting;
     winningCombos.forEach(combo => {
-        if(board[combo[0]] === 'X' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]] && board[combo[0]] === board[combo[2]]) {
-            winner = 'X'
-        } else if (board[combo[0]] === 'O' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]] && board[combo[0]] === board[combo[2]]) {
-            winner = 'O'
-    }})
-    return winner;
+        if(board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]) {
+            winnerIsExisting = true;
+        } 
+    });
+    return winnerIsExisting === true ? true : false;
 }
+
 
 function setBoardHoverClass() {
     gameBoard.classList.remove(X_CLASS);
