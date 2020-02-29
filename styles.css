@@ -7,19 +7,108 @@
     --mark-size: calc(var(--cell-size) * 0.8);
 }
 
+@font-face {
+    src: url(PatrickHand-Regular.ttf);
+    font-family: patrickHandFont;
+}
+
 body {
     margin: 0;
+    font-family: patrickHandFont;
+}
+
+header{
+    height: 140px;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 100px;
+    margin: 0;
+    color: white;
+    background-color: black;
+    opacity: 0.9;
+}
+
+.player-choice {
+    width: 70%;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.player-choice.active-game {
+    display: none;
+}
+
+.name-section {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 8px;
+}
+
+button {
+    font-size: 1.1rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+button.clicked {
+    background-color: black;
+    color: white;
+}
+
+button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+input {
+    font-size: 1.1rem;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+label {
+    font-size: 1.1rem;
+}
+
+#start-game {
+    margin-top: 30px;
+    font-size: 1.5rem;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+.game-board-container {
+    width: 100%;
+}
+
+/* game-board-container is just after container containing .active-game class and will be diplayed after activating this class */
+.active-game + .game-board-container {
+    height: calc(100vh - 140px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .board {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
     display: grid;
     justify-content: center;
     align-content: center; 
     grid-template-columns: repeat(3, auto);  
-    /* justify-items: center;
-    align-items: center; */
 }
 
 .cell {
@@ -154,6 +243,5 @@ body {
 .winning-message.show {
     display: flex;
 }
-
 
 
