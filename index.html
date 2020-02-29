@@ -8,16 +8,39 @@
     <title>TIC-TAC-TOE</title>
 </head>
 <body>
-    <div class="board" id="board">
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
+    <header>
+        <h1>Tic Tac Toe</h1>
+    </header>
+    <div class="player-choice">
+        <div class="name-section">
+            <div class="input-name-container">
+                <label for="name1">Player One Name</label>
+                <input type="text" id="name1">
+            </div>
+            <div class="input-name-container">
+                <label for="name2">Player Two Name</label>
+                <input type="text" id="name2">
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="player-vs-player" class="option-button active">Player vs Player</button>
+            <button id="player-vs-computer-easy" class="option-button">Player vs Computer-Easy</button>
+            <button id="player-vs-computer-hard" class="option-button">Player vs Computer-Hard</button>
+        </div>
+        <button id="start-game">Start game</button>
+    </div>
+    <div class="game-board-container">
+        <div class="board" id="board">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
     </div>
     <div class="winning-message">
         <div data-winning-message-text></div>
