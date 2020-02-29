@@ -15,9 +15,43 @@ const gameBoard = document.getElementById('board');
 let board;
 let circleTurn; 
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
-const winningComunicate = document.querySelector('.winning-message')
+const winningComunicate = document.querySelector('.winning-message');
+const restartButton = document.getElementById('restartButton');
 
 startGame();
+
+function computerMove(circleTurn) {
+    computerRandomMove(getIndexOfFreeSpots());
+    if (checkWin()) {
+        endGame(false);
+    } else if (checkIfIsDraw()) {
+        endGame(true);
+    } else {
+        swapTurns();
+    }
+}
+
+  //check witch spot is free - return number of free spots
+  function getIndexOfFreeSpots() {
+    let indexOfFreeSpots = [];
+    board.forEach((cell,index) => {
+       if(cell == '') {
+           indexOfFreeSpots.push(index);
+       }
+   })
+   return indexOfFreeSpots;
+}
+//generate random move on free spot - in relatio to number of free spots
+function computerRandomMove(arrayWithFreeSpotIndex){
+    let randomIndex = arrayWithFreeSpotIndex[Math.floor(Math.random() * arrayWithFreeSpotIndex.length)];
+    cellElements[randomIndex].classList.add(CIRCLE_CLASS);
+    board[randomIndex] = 'O';
+    console.log(board);
+}
+
+
+
+
 
 function startGame()
  {
@@ -39,18 +73,30 @@ function handleClick(e) {
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS; // circleTurn is undefined, so it returns false
     //get the index of the array
     getTheIndexOfAnArray(currentClass);
-    // put mark on the screen and in the array
+    // put mark on the screen 
     placeMark(cell, currentClass)
-    // check fro win
-
+    
     if (checkWin()) {
         endGame(false);
     } else if (checkIfIsDraw()) {
         endGame(true);
     } else {
         swapTurns();
+        computerMove(circleTurn);
         setBoardHoverClass();
     }
+}
+
+restartButton.addEventListener('click', resetGame)
+
+function resetGame() {
+     winningComunicate.classList.remove('show');
+     cellElements.forEach(cell => {
+         cell.classList.remove(X_CLASS);
+         cell.classList.remove(CIRCLE_CLASS);
+        //  cell.removeEventListener('click', handleClick)
+     })
+     startGame();  
 }
 
 function checkIfIsDraw() {
@@ -76,11 +122,13 @@ function endGame(draw) {
             }
         })
 
-        if(score_X > score_O) {
-            winningMessageTextElement.innerText = 'X is the winner!'
-        } else {
-            winningMessageTextElement.innerText = 'O is the winner!'
-        }
+        // if(score_X > score_O) {
+        //     winningMessageTextElement.innerText = 'X is the winner!'
+        // } else {
+        //     winningMessageTextElement.innerText = 'O is the winner!'
+        // }
+
+        winningMessageTextElement.innerText = score_X > score_O ? 'X is the winner!' : 'O is the winner!';
         
     }
     winningComunicate.classList.add('show');
