@@ -17,41 +17,25 @@ let circleTurn;
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
 const winningComunicate = document.querySelector('.winning-message');
 const restartButton = document.getElementById('restartButton');
+const startGameButton = document.getElementById('start-game');
+const playerChoiceContainer = document.querySelector('.player-choice');
+const optionButtons = document.querySelectorAll('.option-button');
 
+// eventListeners
+restartButton.addEventListener('click', resetGame);
+startGameButton.addEventListener('click', e => {
+    playerChoiceContainer.classList.add('active-game');
+})
+
+optionButtons.forEach(button => {
+    button.addEventListener('click', e => {
+        optionButtons.forEach(button => button.classList.remove('clicked'));
+        e.target.classList.add('clicked');
+    })
+})
+
+// functions
 startGame();
-
-function computerMove(circleTurn) {
-    computerRandomMove(getIndexOfFreeSpots());
-    if (checkWin()) {
-        endGame(false);
-    } else if (checkIfIsDraw()) {
-        endGame(true);
-    } else {
-        swapTurns();
-    }
-}
-
-  //check witch spot is free - return number of free spots
-  function getIndexOfFreeSpots() {
-    let indexOfFreeSpots = [];
-    board.forEach((cell,index) => {
-       if(cell == '') {
-           indexOfFreeSpots.push(index);
-       }
-   })
-   return indexOfFreeSpots;
-}
-//generate random move on free spot - in relatio to number of free spots
-function computerRandomMove(arrayWithFreeSpotIndex){
-    let randomIndex = arrayWithFreeSpotIndex[Math.floor(Math.random() * arrayWithFreeSpotIndex.length)];
-    cellElements[randomIndex].classList.add(CIRCLE_CLASS);
-    board[randomIndex] = 'O';
-    console.log(board);
-}
-
-
-
-
 
 function startGame()
  {
@@ -87,7 +71,34 @@ function handleClick(e) {
     }
 }
 
-restartButton.addEventListener('click', resetGame)
+function computerMove(circleTurn) {
+    computerRandomMove(getIndexOfFreeSpots());
+    if (checkWin()) {
+        endGame(false);
+    } else if (checkIfIsDraw()) {
+        endGame(true);
+    } else {
+        swapTurns();
+    }
+}
+
+  //check witch spot is free - return number of free spots
+  function getIndexOfFreeSpots() {
+    let indexOfFreeSpots = [];
+    board.forEach((cell,index) => {
+       if(cell == '') {
+           indexOfFreeSpots.push(index);
+       }
+   })
+   return indexOfFreeSpots;
+}
+//generate random move on free spot - in relatio to number of free spots
+function computerRandomMove(arrayWithFreeSpotIndex){
+    let randomIndex = arrayWithFreeSpotIndex[Math.floor(Math.random() * arrayWithFreeSpotIndex.length)];
+    cellElements[randomIndex].classList.add(CIRCLE_CLASS);
+    board[randomIndex] = 'O';
+    console.log(board);
+}
 
 function resetGame() {
      winningComunicate.classList.remove('show');
@@ -95,7 +106,8 @@ function resetGame() {
          cell.classList.remove(X_CLASS);
          cell.classList.remove(CIRCLE_CLASS);
         //  cell.removeEventListener('click', handleClick)
-     })
+     });
+     playerChoiceContainer.classList.remove('active-game');
      startGame();  
 }
 
@@ -170,5 +182,4 @@ function getTheIndexOfAnArray(currentClass) {
     board[index_X] = currentClass == X_CLASS ? 'X' : 'O';
     console.log(board);
 }
-
 
