@@ -17,25 +17,62 @@ let circleTurn;
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
 const winningComunicate = document.querySelector('.winning-message');
 const restartButton = document.getElementById('restartButton');
+const newGameButton = document.getElementById('newGameButton');
 const startGameButton = document.getElementById('start-game');
 const playerChoiceContainer = document.querySelector('.player-choice');
 const optionButtons = document.querySelectorAll('.option-button');
+const playerOneName = document.querySelector('#name1');
+const playerTwoName = document.querySelector('#name2');
+let gameOption = '';
+
+const alertMessageOne = document.getElementById('message-alert');
 
 // eventListeners
 restartButton.addEventListener('click', resetGame);
-startGameButton.addEventListener('click', e => {
-    playerChoiceContainer.classList.add('active-game');
+newGameButton.addEventListener('click', e => {
+    playerChoiceContainer.classList.remove('active-game');
+    resetGame();
+    playerOneName.value = '';
+    playerTwoName.value = '';
+    gameOption = '';
 })
 
 optionButtons.forEach(button => {
     button.addEventListener('click', e => {
         optionButtons.forEach(button => button.classList.remove('clicked'));
         e.target.classList.add('clicked');
+        gameOption = e.target.id;
     })
 })
 
+// startGameButton.addEventListener('click', startGame);
+
+startGameButton.addEventListener('click', e => {
+    if(playerDataValidation()) {
+        playerChoiceContainer.classList.add('active-game');
+        startGame();
+    }
+});
+
+function playerDataValidation() {
+    if(gameOption !== '' && playerOneName.value !== '') {
+        return true
+    } else {
+        alertCreating();
+        // alert('Please fill the form!')
+    }
+}
+
+function alertCreating() {
+    const div = document.createElement('div');
+    div.className = 'alert-row';
+    div.innerHTML = `
+    <p> Please choose one from below mentioned options of the game!
+    `
+    alertMessageOne.appendChild(div);
+}
+
 // functions
-startGame();
 
 function startGame()
  {
@@ -66,9 +103,21 @@ function handleClick(e) {
         endGame(true);
     } else {
         swapTurns();
-        computerMove(circleTurn);
+        optionGameFlow(gameOption);
         setBoardHoverClass();
     }
+}
+
+function optionGameFlow(gameOption) {
+    if(gameOption === 'player-vs-computer-easy') {
+        computerMove(circleTurn);
+    } else if (gameOption === 'player-vs-computer-hard') {
+        computerMoveHard(circleTurn);
+    }
+}
+
+function computerMoveHard(circleTurn) {
+    console.log('HARD')
 }
 
 function computerMove(circleTurn) {
@@ -107,7 +156,8 @@ function resetGame() {
          cell.classList.remove(CIRCLE_CLASS);
         //  cell.removeEventListener('click', handleClick)
      });
-     playerChoiceContainer.classList.remove('active-game');
+     optionButtons.forEach(button => button.classList.remove('clicked'));
+    //  playerChoiceContainer.classList.remove('active-game');
      startGame();  
 }
 
@@ -140,7 +190,7 @@ function endGame(draw) {
         //     winningMessageTextElement.innerText = 'O is the winner!'
         // }
 
-        winningMessageTextElement.innerText = score_X > score_O ? 'X is the winner!' : 'O is the winner!';
+        winningMessageTextElement.innerText = score_X > score_O ? `X is the winner! - ${playerOneName.value}` : `O is the winner! - ${playerTwoName.value}`;
         
     }
     winningComunicate.classList.add('show');
