@@ -25,7 +25,8 @@ const playerOneName = document.querySelector('#name1');
 const playerTwoName = document.querySelector('#name2');
 let gameOption = '';
 
-const alertMessageOne = document.getElementById('message-alert');
+const alertMessageOne = document.getElementById('message-alert-one');
+const alertMessageTwo = document.getElementById('message-alert-two');
 
 // eventListeners
 restartButton.addEventListener('click', resetGame);
@@ -57,19 +58,37 @@ startGameButton.addEventListener('click', e => {
 function playerDataValidation() {
     if(gameOption !== '' && playerOneName.value !== '') {
         return true
-    } else {
-        alertCreating();
-        // alert('Please fill the form!')
+    } else if (gameOption === '' && playerOneName.value === '') {
+        alertCreatingOne();
+        alertCreatingTwo();
+        setTimeout(() => document.querySelectorAll('.alert-row').forEach(row => {
+            row.remove();
+        }), 2000);
+    } else if (playerOneName.value === '') {
+        alertCreatingTwo();
+        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
+    } else if(gameOption === '') {
+        alertCreatingOne();
+        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
     }
 }
 
-function alertCreating() {
+function alertCreatingOne() {
     const div = document.createElement('div');
     div.className = 'alert-row';
     div.innerHTML = `
-    <p> Please choose one from below mentioned options of the game!
+    <p>Please choose one from the below mentioned options of the game!</p>
     `
     alertMessageOne.appendChild(div);
+}
+
+function alertCreatingTwo() {
+    const div = document.createElement('div');
+    div.className = 'alert-row';
+    div.innerHTML = `
+    <p>Please insert your name(s)!</p>
+    `
+    alertMessageTwo.appendChild(div);
 }
 
 // functions
@@ -116,9 +135,34 @@ function optionGameFlow(gameOption) {
     }
 }
 
-function computerMoveHard(circleTurn) {
-    console.log('HARD')
-}
+
+// function computerMoveHard(circleTurn) {
+//  bestMove();
+// }
+
+// function bestMove() {
+//     let bestScore = - Infinity;
+//     let move;
+//     board.forEach(cell => {
+//         if(cell = '') {
+//             cell = 'O';
+//             let score = minimax(board);
+//             cell = '';
+//             if (score < bestScore) {
+//                 bestScore = score;
+//                 move = cell
+//                 console.log(move)
+//             }
+//         }
+//     })
+//     board[move] = 'O';
+//     swapTurns();
+// }
+
+// function minmax(board) {
+//     return 1;
+// }
+
 
 function computerMove(circleTurn) {
     computerRandomMove(getIndexOfFreeSpots());
