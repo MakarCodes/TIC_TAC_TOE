@@ -136,31 +136,122 @@ function optionGameFlow(gameOption) {
 }
 
 
-// function computerMoveHard(circleTurn) {
-//  bestMove();
-// }
+function computerMoveHard(circleTurn) {
+    bestMove();
+    if (checkWin()) {
+        endGame(false);
+    } else if (checkIfIsDraw()) {
+        endGame(true);
+    } else {
+        swapTurns();
+    }
+}
 
-// function bestMove() {
-//     let bestScore = - Infinity;
-//     let move;
-//     board.forEach(cell => {
-//         if(cell = '') {
-//             cell = 'O';
-//             let score = minimax(board);
-//             cell = '';
-//             if (score < bestScore) {
-//                 bestScore = score;
-//                 move = cell
-//                 console.log(move)
-//             }
+function bestMove() {
+    let bestScore = - Infinity;
+    let indexWhereToMove;
+    board.forEach((cell, index) => {
+        if(cell === '') {
+            board[index] = 'O';
+            // returns score of the particular move
+            let score = minimax(board, 0, false);
+            // console.log(score)
+            board[index] = '';
+            if (score > bestScore) {
+                bestScore = score;
+                indexWhereToMove = index;
+            }
+        }
+    })
+    board[indexWhereToMove] = 'O';
+    cellElements[indexWhereToMove].classList.add(CIRCLE_CLASS);
+}
+
+
+function minimax(board, depth, isMaximizing) {
+
+    let result = checkingWinningForMiniMax();
+    if(result !== null) {
+        console.log(result);
+        return result;
+    } 
+    
+    if (isMaximizing) {
+        let bestScore = - Infinity;
+        board.forEach((cell, index) => {
+            if(cell === '') {
+                board[index] = 'O';
+                // returns score of the particular move
+                let score = minimax(board, depth + 1, false);
+                board[index] = '';
+                // bestScore = max(score, bestScore);
+                if (score < bestScore) {
+                    bestScore = score;
+                }
+            }
+        })
+        // console.log(bestScore)
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        board.forEach((cell, index) => {
+            if(cell === '') {
+                board[index] = 'X';
+                // console.log(board)
+                // returns score of the particular move
+                let score = minimax(board, depth + 1, true);
+                // console.log(board)
+                board[index] = '';
+                // bestScore = min(score, bestScore);
+                if (score > bestScore) {
+                    bestScore = score;
+                }
+            }
+        })
+        return bestScore;
+    }
+}
+
+function checkingWinningForMiniMax() {
+    let result = null;
+
+    winningCombos.forEach(combo => {
+    if(board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]  && board[combo[2]] === 'X') {
+        result = 10;
+    } 
+    else if (board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]] && board[combo[2]] === 'O') {
+        result = -10;
+    } else if (checkIfIsDraw()) {
+        result = 0;
+    }
+    });
+    // console.log(result)
+    return result;
+}
+
+
+// function checkingWinningForMiniMax() {
+//     let result = null;
+//     winningCombos.forEach(combo => {
+//         if(board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]) {
+//             let score_X = 0;
+//             let score_O = 0;
+//             board.forEach(cell => {
+//                 if(cell == 'X'){
+//                     score_X++;
+//                 } else if (cell == 'O'){
+//                     score_O++;
+//                 }
+//             })
+//             result = score_X > score_O ? 10 : -10;
+//         } else if (checkIfIsDraw()) {
+//             result = 0;
+//         } else {
+//             console.log('playing')
 //         }
-//     })
-//     board[move] = 'O';
-//     swapTurns();
-// }
-
-// function minmax(board) {
-//     return 1;
+//     });
+//     console.log(result)
+//     return result;
 // }
 
 
@@ -214,9 +305,7 @@ function checkIfIsDraw() {
 
 function endGame(draw) {
     if(draw) {
-
         winningMessageTextElement.innerText = 'DRAW!'
-
     } else {
         let score_X = 0;
         let score_O = 0;
