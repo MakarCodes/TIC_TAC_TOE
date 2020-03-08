@@ -46,8 +46,6 @@ optionButtons.forEach(button => {
     })
 })
 
-// startGameButton.addEventListener('click', startGame);
-
 startGameButton.addEventListener('click', e => {
     if(playerDataValidation()) {
         playerChoiceContainer.classList.add('active-game');
@@ -55,43 +53,8 @@ startGameButton.addEventListener('click', e => {
     }
 });
 
-function playerDataValidation() {
-    if(gameOption !== '' && playerOneName.value !== '') {
-        return true
-    } else if (gameOption === '' && playerOneName.value === '') {
-        alertCreatingOne();
-        alertCreatingTwo();
-        setTimeout(() => document.querySelectorAll('.alert-row').forEach(row => {
-            row.remove();
-        }), 2000);
-    } else if (playerOneName.value === '') {
-        alertCreatingTwo();
-        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
-    } else if(gameOption === '') {
-        alertCreatingOne();
-        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
-    }
-}
 
-function alertCreatingOne() {
-    const div = document.createElement('div');
-    div.className = 'alert-row';
-    div.innerHTML = `
-    <p>Please choose one from the below mentioned options of the game!</p>
-    `
-    alertMessageOne.appendChild(div);
-}
-
-function alertCreatingTwo() {
-    const div = document.createElement('div');
-    div.className = 'alert-row';
-    div.innerHTML = `
-    <p>Please insert your name(s)!</p>
-    `
-    alertMessageTwo.appendChild(div);
-}
-
-// functions
+// general functions
 
 function startGame()
  {
@@ -136,6 +99,8 @@ function optionGameFlow(gameOption) {
 }
 
 
+
+// functions for COMPUTER MOVE - UNBEATABLE!!!
 function computerMoveHard(circleTurn) {
     bestMove();
     if (checkWin()) {
@@ -148,21 +113,20 @@ function computerMoveHard(circleTurn) {
 }
 
 function bestMove() {
-    let bestScore = - Infinity;
+    let bestScore = 1000;
     let indexWhereToMove;
     board.forEach((cell, index) => {
         if(cell === '') {
             board[index] = 'O';
-            // returns score of the particular move
-            let score = minimax(board, 0, false);
-            // console.log(score)
+            let score = minimax(board, 0, true);
+            console.log(score)
             board[index] = '';
-            if (score > bestScore) {
+            if (score < bestScore) { 
                 bestScore = score;
                 indexWhereToMove = index;
             }
         }
-    })
+    });
     board[indexWhereToMove] = 'O';
     cellElements[indexWhereToMove].classList.add(CIRCLE_CLASS);
 }
@@ -172,45 +136,34 @@ function minimax(board, depth, isMaximizing) {
 
     let result = checkingWinningForMiniMax();
     if(result !== null) {
-        console.log(result);
         return result;
     } 
     
     if (isMaximizing) {
-        let bestScore = - Infinity;
-        board.forEach((cell, index) => {
-            if(cell === '') {
-                board[index] = 'O';
-                // returns score of the particular move
-                let score = minimax(board, depth + 1, false);
-                board[index] = '';
-                // bestScore = max(score, bestScore);
-                if (score < bestScore) {
-                    bestScore = score;
-                }
-            }
-        })
-        // console.log(bestScore)
-        return bestScore;
-    } else {
-        let bestScore = Infinity;
+        let bestScore = -1000;
         board.forEach((cell, index) => {
             if(cell === '') {
                 board[index] = 'X';
-                // console.log(board)
-                // returns score of the particular move
-                let score = minimax(board, depth + 1, true);
-                // console.log(board)
+                let score = minimax(board, depth + 1, false);
                 board[index] = '';
-                // bestScore = min(score, bestScore);
-                if (score > bestScore) {
-                    bestScore = score;
-                }
+                bestScore = Math.max(score, bestScore);
             }
-        })
+        });
+        return bestScore;
+    } else {
+        let bestScore = 1000;
+        board.forEach((cell, index) => {
+            if(cell === '') {
+                board[index] = 'O';
+                let score = minimax(board, depth + 1, true);
+                board[index] = '';
+                bestScore = Math.min(score, bestScore);
+            }
+        });
         return bestScore;
     }
 }
+
 
 function checkingWinningForMiniMax() {
     let result = null;
@@ -221,39 +174,53 @@ function checkingWinningForMiniMax() {
     } 
     else if (board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]] && board[combo[2]] === 'O') {
         result = -10;
-    } else if (checkIfIsDraw()) {
+    } else if (isDraw()) {
         result = 0;
     }
     });
-    // console.log(result)
     return result;
 }
 
+function isDraw() {
+    return board.every(cell => {
+        return cell === 'X' || cell === 'O'
+    });
+}
 
 // function checkingWinningForMiniMax() {
 //     let result = null;
-//     winningCombos.forEach(combo => {
-//         if(board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]) {
-//             let score_X = 0;
-//             let score_O = 0;
-//             board.forEach(cell => {
-//                 if(cell == 'X'){
-//                     score_X++;
-//                 } else if (cell == 'O'){
-//                     score_O++;
-//                 }
-//             })
-//             result = score_X > score_O ? 10 : -10;
-//         } else if (checkIfIsDraw()) {
+//     if(
+//         board[0] === 'X' && board[1] === 'X' && board[2] === 'X' ||
+//         board[3] === 'X' && board[4] === 'X' && board[5] === 'X' ||
+//         board[6] === 'X' && board[7] === 'X' && board[8] === 'X' ||
+//         board[0] === 'X' && board[3] === 'X' && board[6] === 'X' ||
+//         board[1] === 'X' && board[4] === 'X' && board[7] === 'X' ||
+//         board[2] === 'X' && board[5] === 'X' && board[8] === 'X' ||
+//         board[0] === 'X' && board[4] === 'X' && board[8] === 'X' ||
+//         board[2] === 'X' && board[4] === 'X' && board[6] === 'X' 
+//         ) {
+//             result = 10;
+            
+//         } else if (
+//         board[0] === 'O' && board[1] === 'O' && board[2] === 'O' ||
+//         board[3] === 'O' && board[4] === 'O' && board[5] === 'O' ||
+//         board[6] === 'O' && board[7] === 'O' && board[8] === 'O' ||
+//         board[0] === 'O' && board[3] === 'O' && board[6] === 'O' ||
+//         board[1] === 'O' && board[4] === 'O' && board[7] === 'O' ||
+//         board[2] === 'O' && board[5] === 'O' && board[8] === 'O' ||
+//         board[0] === 'O' && board[4] === 'O' && board[8] === 'O' ||
+//         board[2] === 'O' && board[4] === 'O' && board[6] === 'O' 
+//         ) {
+//             result = -10;
+//         } else if (isDraw()) {
 //             result = 0;
-//         } else {
-//             console.log('playing')
 //         }
-//     });
-//     console.log(result)
-//     return result;
+//         return result;
 // }
 
+
+
+// functions for COMPUTER RANDOM MOVE
 
 function computerMove(circleTurn) {
     computerRandomMove(getIndexOfFreeSpots());
@@ -266,8 +233,7 @@ function computerMove(circleTurn) {
     }
 }
 
-  //check witch spot is free - return number of free spots
-  function getIndexOfFreeSpots() {
+function getIndexOfFreeSpots() {
     let indexOfFreeSpots = [];
     board.forEach((cell,index) => {
        if(cell == '') {
@@ -276,23 +242,23 @@ function computerMove(circleTurn) {
    })
    return indexOfFreeSpots;
 }
-//generate random move on free spot - in relatio to number of free spots
+
 function computerRandomMove(arrayWithFreeSpotIndex){
     let randomIndex = arrayWithFreeSpotIndex[Math.floor(Math.random() * arrayWithFreeSpotIndex.length)];
     cellElements[randomIndex].classList.add(CIRCLE_CLASS);
     board[randomIndex] = 'O';
-    console.log(board);
 }
+
+
+// functions for game flow
 
 function resetGame() {
      winningComunicate.classList.remove('show');
      cellElements.forEach(cell => {
          cell.classList.remove(X_CLASS);
          cell.classList.remove(CIRCLE_CLASS);
-        //  cell.removeEventListener('click', handleClick)
      });
      optionButtons.forEach(button => button.classList.remove('clicked'));
-    //  playerChoiceContainer.classList.remove('active-game');
      startGame();  
 }
 
@@ -317,14 +283,7 @@ function endGame(draw) {
             }
         })
 
-        // if(score_X > score_O) {
-        //     winningMessageTextElement.innerText = 'X is the winner!'
-        // } else {
-        //     winningMessageTextElement.innerText = 'O is the winner!'
-        // }
-
         winningMessageTextElement.innerText = score_X > score_O ? `X is the winner! - ${playerOneName.value}` : `O is the winner! - ${playerTwoName.value}`;
-        
     }
     winningComunicate.classList.add('show');
 }
@@ -363,6 +322,42 @@ function getTheIndexOfAnArray(currentClass) {
         return cell === event.target
     })
     board[index_X] = currentClass == X_CLASS ? 'X' : 'O';
-    console.log(board);
 }
 
+// validation of input fields 
+
+function playerDataValidation() {
+    if(gameOption !== '' && playerOneName.value !== '') {
+        return true
+    } else if (gameOption === '' && playerOneName.value === '') {
+        alertCreatingOne();
+        alertCreatingTwo();
+        setTimeout(() => document.querySelectorAll('.alert-row').forEach(row => {
+            row.remove();
+        }), 2000);
+    } else if (playerOneName.value === '') {
+        alertCreatingTwo();
+        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
+    } else if(gameOption === '') {
+        alertCreatingOne();
+        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
+    }
+}
+
+function alertCreatingOne() {
+    const div = document.createElement('div');
+    div.className = 'alert-row';
+    div.innerHTML = `
+    <p>Please choose one from the below mentioned options of the game!</p>
+    `
+    alertMessageOne.appendChild(div);
+}
+
+function alertCreatingTwo() {
+    const div = document.createElement('div');
+    div.className = 'alert-row';
+    div.innerHTML = `
+    <p>Please insert your name(s)!</p>
+    `
+    alertMessageTwo.appendChild(div);
+}
