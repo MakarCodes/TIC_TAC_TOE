@@ -30,7 +30,7 @@ const alertMessageTwo = document.getElementById('message-alert-two');
 
 // eventListeners
 restartButton.addEventListener('click', resetGame);
-newGameButton.addEventListener('click', e => {
+newGameButton.addEventListener('click', () => {
     playerChoiceContainer.classList.remove('active-game');
     resetGame();
     playerOneName.value = '';
@@ -46,7 +46,7 @@ optionButtons.forEach(button => {
     })
 })
 
-startGameButton.addEventListener('click', e => {
+startGameButton.addEventListener('click', () => {
     if(playerDataValidation()) {
         playerChoiceContainer.classList.add('active-game');
         startGame();
@@ -332,32 +332,35 @@ function playerDataValidation() {
     } else if (gameOption === '' && playerOneName.value === '') {
         alertCreatingOne();
         alertCreatingTwo();
-        setTimeout(() => document.querySelectorAll('.alert-row').forEach(row => {
-            row.remove();
-        }), 2000);
+        setTimeout(() => document.querySelector('.alert-row-one').remove(),2000);
+        setTimeout(() => document.querySelector('.alert-row-two').remove(),2000);
     } else if (playerOneName.value === '') {
         alertCreatingTwo();
-        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
+        setTimeout(() => document.querySelector('.alert-row-two').remove(), 2000);
     } else if(gameOption === '') {
         alertCreatingOne();
-        setTimeout(() => document.querySelector('.alert-row').remove(), 2000);
+        setTimeout(() => document.querySelector('.alert-row-one').remove(), 2000);
     }
 }
 
 function alertCreatingOne() {
-    const div = document.createElement('div');
-    div.className = 'alert-row';
-    div.innerHTML = `
-    <p>Please choose one from the below mentioned options of the game!</p>
-    `
-    alertMessageOne.appendChild(div);
+    if(document.querySelector('.alert-row-one') === null){
+        const div = document.createElement('div');
+        div.className = 'alert-row-one';
+        div.innerHTML = `
+        <p>Please choose one from the below mentioned options of the game!</p>
+        `
+        alertMessageOne.appendChild(div);
+    }
 }
 
 function alertCreatingTwo() {
-    const div = document.createElement('div');
-    div.className = 'alert-row';
-    div.innerHTML = `
-    <p>Please insert your name(s)!</p>
-    `
-    alertMessageTwo.appendChild(div);
+    if(document.querySelector('.alert-row-two') === null){
+        const div = document.createElement('div');
+        div.className = 'alert-row-two';
+        div.innerHTML = `
+        <p>Please insert your name(s)!</p>
+        `
+        alertMessageTwo.appendChild(div);
+    }
 }

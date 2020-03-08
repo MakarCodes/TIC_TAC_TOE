@@ -259,7 +259,7 @@ label {
     display: block;
     width: 100%;
 }
-.alert-row {
+.alert-row-one, .alert-row-two {
     background-color: red;
     color: white;
     text-align: center;
