@@ -66,18 +66,31 @@ function startGame()
         ];
 
      cellElements.forEach(cell => {
-         cell.addEventListener('click', handleClick, { once: true})
-     })
+            cell.addEventListener('click', handleClick);
+            // cell.addEventListener('click', handleClick, {once: true});
+     });
      setBoardHoverClass();
  }
 
 function handleClick(e) {
     const cell = e.target;
-    const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS; // circleTurn is undefined, so it returns false
+    if(cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS)){
+        // alert('Sorry, this spot is taken!')
+        const tip = document.createElement('div');
+        tip.classList.add('outer-container');
+        tip.innerHTML = `
+        <span class="tootlip">This spot is taken!</span>
+        `;
+        cell.appendChild(tip);
+        setTimeout(() => cell.removeChild(tip),800);
+
+    } else {
+        const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS; // circleTurn is undefined, so it returns false
     //get the index of the array
     getTheIndexOfAnArray(currentClass);
     // put mark on the screen 
-    placeMark(cell, currentClass)
+    placeMark(cell, currentClass);
+    console.log(board);
     
     if (checkWin()) {
         endGame(false);
@@ -86,15 +99,24 @@ function handleClick(e) {
     } else {
         swapTurns();
         optionGameFlow(gameOption);
-        setBoardHoverClass();
+        // optionGameFlow(gameOption);
+        // setBoardHoverClass();
     }
+    }
+    
 }
 
 function optionGameFlow(gameOption) {
     if(gameOption === 'player-vs-computer-easy') {
-        computerMove(circleTurn);
+        // computerMove(circleTurn);
+        playerTwoName.value = 'AI player';
+        setTimeout(() => computerMove(circleTurn),200);
     } else if (gameOption === 'player-vs-computer-hard') {
-        computerMoveHard(circleTurn);
+        // computerMoveHard(circleTurn);
+        playerTwoName.value = 'AI player';
+        setTimeout(() => computerMoveHard(circleTurn),200);
+    } else if (gameOption === 'player-vs-player') {
+        setBoardHoverClass();
     }
 }
 
@@ -165,58 +187,42 @@ function minimax(board, depth, isMaximizing) {
 }
 
 
-function checkingWinningForMiniMax() {
-    let result = null;
-
-    winningCombos.forEach(combo => {
-    if(board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]  && board[combo[2]] === 'X') {
-        result = 10;
-    } 
-    else if (board[combo[0]] !== '' && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]] && board[combo[2]] === 'O') {
-        result = -10;
-    } else if (isDraw()) {
-        result = 0;
-    }
-    });
-    return result;
-}
-
 function isDraw() {
     return board.every(cell => {
         return cell === 'X' || cell === 'O'
     });
 }
 
-// function checkingWinningForMiniMax() {
-//     let result = null;
-//     if(
-//         board[0] === 'X' && board[1] === 'X' && board[2] === 'X' ||
-//         board[3] === 'X' && board[4] === 'X' && board[5] === 'X' ||
-//         board[6] === 'X' && board[7] === 'X' && board[8] === 'X' ||
-//         board[0] === 'X' && board[3] === 'X' && board[6] === 'X' ||
-//         board[1] === 'X' && board[4] === 'X' && board[7] === 'X' ||
-//         board[2] === 'X' && board[5] === 'X' && board[8] === 'X' ||
-//         board[0] === 'X' && board[4] === 'X' && board[8] === 'X' ||
-//         board[2] === 'X' && board[4] === 'X' && board[6] === 'X' 
-//         ) {
-//             result = 10;
+function checkingWinningForMiniMax() {
+    let result = null;
+    if(
+        board[0] === 'X' && board[1] === 'X' && board[2] === 'X' ||
+        board[3] === 'X' && board[4] === 'X' && board[5] === 'X' ||
+        board[6] === 'X' && board[7] === 'X' && board[8] === 'X' ||
+        board[0] === 'X' && board[3] === 'X' && board[6] === 'X' ||
+        board[1] === 'X' && board[4] === 'X' && board[7] === 'X' ||
+        board[2] === 'X' && board[5] === 'X' && board[8] === 'X' ||
+        board[0] === 'X' && board[4] === 'X' && board[8] === 'X' ||
+        board[2] === 'X' && board[4] === 'X' && board[6] === 'X' 
+        ) {
+            result = 10;
             
-//         } else if (
-//         board[0] === 'O' && board[1] === 'O' && board[2] === 'O' ||
-//         board[3] === 'O' && board[4] === 'O' && board[5] === 'O' ||
-//         board[6] === 'O' && board[7] === 'O' && board[8] === 'O' ||
-//         board[0] === 'O' && board[3] === 'O' && board[6] === 'O' ||
-//         board[1] === 'O' && board[4] === 'O' && board[7] === 'O' ||
-//         board[2] === 'O' && board[5] === 'O' && board[8] === 'O' ||
-//         board[0] === 'O' && board[4] === 'O' && board[8] === 'O' ||
-//         board[2] === 'O' && board[4] === 'O' && board[6] === 'O' 
-//         ) {
-//             result = -10;
-//         } else if (isDraw()) {
-//             result = 0;
-//         }
-//         return result;
-// }
+        } else if (
+        board[0] === 'O' && board[1] === 'O' && board[2] === 'O' ||
+        board[3] === 'O' && board[4] === 'O' && board[5] === 'O' ||
+        board[6] === 'O' && board[7] === 'O' && board[8] === 'O' ||
+        board[0] === 'O' && board[3] === 'O' && board[6] === 'O' ||
+        board[1] === 'O' && board[4] === 'O' && board[7] === 'O' ||
+        board[2] === 'O' && board[5] === 'O' && board[8] === 'O' ||
+        board[0] === 'O' && board[4] === 'O' && board[8] === 'O' ||
+        board[2] === 'O' && board[4] === 'O' && board[6] === 'O' 
+        ) {
+            result = -10;
+        } else if (isDraw()) {
+            result = 0;
+        }
+        return result;
+}
 
 
 
@@ -314,7 +320,10 @@ function swapTurns() {
 }
 
 function placeMark(cell, currentClass) {
-    cell.classList.add(currentClass)
+    
+    if(!cell.classList.contains(CIRCLE_CLASS)) {
+        cell.classList.add(currentClass)
+    }
 }
 
 function getTheIndexOfAnArray(currentClass) {
