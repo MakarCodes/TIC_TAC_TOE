@@ -15,6 +15,8 @@
 body {
     margin: 0;
     font-family: patrickHandFont;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 header{
@@ -32,65 +34,103 @@ header h1 {
 
 .player-choice {
     width: 70%;
-    margin: 40px auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.player-choice p {
-    font-size: 20px;
-    display: block;
-    margin: 10px auto;
+    margin: 3% auto;
+    text-align: center;
 }
 
 .player-choice.active-game {
     display: none;
 }
 
-.name-section {
-    flex: 1 1 100%;
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+.game-mode {
+    width: 60%;
+    margin: 2% auto;
 }
 
-.buttons {
-    flex: 1 1 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 8px;
-    margin-bottom: 10px;
+.computer-mode {
+    display: block;
 }
+
+.name-multiplayer {
+    display: none;
+}
+
+
 
 button {
-    font-size: 1.1rem;
-    background-color: white;
     border: 1px solid black;
-    padding: .25em .5em;
+    border-radius: 0.2em;
+    background: none;
+    padding: .4em .8em;
+    font-size: 1.2rem;
     cursor: pointer;
+    margin: 10px;
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+}
+button:hover{
+    color: white;
+}
+
+button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: black;
+    z-index: -1;
+    transition: 0.8s;
+}
+button:before {
+    top: 0;
+    border-radius: 0 0 50% 50%;
+}
+
+button:hover::before {
+    height: 180%;
+    color: white;
+}
+
+button.clicked-mode {
+    background-color: black;
+    color: white;
+    transition: 0.8s;
 }
 
 button.clicked {
     background-color: black;
     color: white;
+    transition: 0.8s;
 }
 
-button:hover {
-    background-color: black;
-    color: white;
-    border-color: white;
-}
-
-input {
+input{
     font-size: 1.1rem;
+    width: 60%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    padding: 8px;
+    box-sizing: border-box;
     padding: .25em .5em;
     cursor: pointer;
+    outline: none;
+    transition: 0.3s;
 }
 
-label {
-    font-size: 1.1rem;
+input:focus{
+    border-color: dodgerblue;
+    box-shadow: 0 0 8px 0 dodgerblue;
 }
+
+footer {
+    height: 140px;
+    width: 100%;
+    background-color: black;
+    margin-top: 20px;
+}
+
 
 #start-game {
     margin-top: 30px;
@@ -99,6 +139,7 @@ label {
     cursor: pointer;
 }
 .game-board-container {
+    display: none;
     width: 100%;
 }
 
@@ -257,13 +298,21 @@ label {
 
 #message-alert-one, #message-alert-two {
     display: block;
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
 }
 .alert-row-one, .alert-row-two {
     background-color: red;
+    border-radius: 6px;
     color: white;
     text-align: center;
-    padding: 2px;
+    margin: 0;
+}
+.alert-row-one p, .alert-row-two p {
+    width: 100%;
+    display: block;
+    margin: 0;
+    padding: 6px 0;
 }
 
 .outer-container {
@@ -291,6 +340,4 @@ label {
 .tootlip {
     color: white;
 }
-
-
 

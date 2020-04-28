@@ -5,41 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <script src="minimax.js" defer></script>
+    <script src="ui.js" defer></script>
     <title>TIC-TAC-TOE</title>
 </head>
 <body>
     <header>
         <h1>Tic Tac Toe</h1>
     </header>
-    <div class="player-choice">
-        <p>Please select who would you like to play with:</p>
-        <div class="buttons">
-            <button id="player-vs-player" class="option-button active">Player vs Player</button>
-            <button id="player-vs-computer-easy" class="option-button">Player vs Computer-Easy</button>
-            <button id="player-vs-computer-hard" class="option-button">Player vs Computer-Hard</button>
+    <section class="player-choice">
+        <p>Please select game mode:</p>
+        <div class="game-mode">
+            <button id="singleplayer" class="option-button-mode active">SinglePlayer</button>
+            <button id="multiplayer" class="option-button-mode">MultiPlayer</button>
         </div>
         <span id="message-alert-one"></span>
+        <div class="buttons computer-mode">
+            <button id="player-vs-computer-easy" class="option-button">Computer-Easy</button>
+            <button id="player-vs-computer-hard" class="option-button">Computer-Hard</button>
+        </div>
         <p>Please enter your name(s):</p>
         <div class="name-section">
             <div class="input-name-container">
-                <label for="name1">Player One Name</label>
-                <input type="text" id="name1">
+                <input type="text" id="name1" placeholder="Player one name">
             </div>
-            <div class="input-name-container">
-                <label for="name2">Player Two Name</label>
-                <input type="text" id="name2">
+            <div class="input-name-container name-multiplayer">
+                <input type="text" id="name2" placeholder="Player two name">
             </div>
         </div>
         <span id="message-alert-two"></span>
         <button id="start-game">Start game</button>
-    </div>
-    <div class="game-board-container">
+    </section>
+    <section class="game-board-container">
         <div class="board" id="board">
-            <div class="cell" data-cell>
-                <!-- <div class="outer-container">
-                    <span class="tootlip">This spot is taken!</span>
-                </div> -->
-            </div>
+            <div class="cell" data-cell></div>
             <div class="cell" data-cell></div>
             <div class="cell" data-cell></div>
             <div class="cell" data-cell></div>
@@ -49,12 +48,14 @@
             <div class="cell" data-cell></div>
             <div class="cell" data-cell></div>
         </div>
-    </div>
+    </section>
     <div class="winning-message">
         <div data-winning-message-text></div>
         <button id="restartButton">Restart</button>
         <button id="newGameButton">New Game</button>
     </div>
+
+    <footer></footer>
     
 </body>
 </html>
