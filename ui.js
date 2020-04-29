@@ -1,6 +1,7 @@
 const singlePlayerBtn = document.querySelector('#singleplayer');
 const multiPlayerBtn = document.querySelector('#multiplayer');
 let singlePlayer = true;
+let gameOption = 'singleplayer';
 
 multiPlayerBtn.addEventListener('click', e => {
   singlePlayer = false;
@@ -17,25 +18,23 @@ singlePlayerBtn.addEventListener('click', e => {
 const alerts = (() => {
     const alertMessageOne = document.getElementById('message-alert-one');
     const alertMessageTwo = document.getElementById('message-alert-two');
-    // validation of input fields 
     
     const playerDataValidation = () => {
-         if(gameOption !== '' && playerOneName.value !== '') {
+        if(gameOption !== '' && difficulty !== '' && playerOneName.value !== ''){
             return true;
-        } else if (gameOption === '' && playerOneName.value === '') {
+        } else if (gameOption === 'singleplayer' && difficulty === '' && playerOneName.value !== ''){
+            alertCreating('alert-row-one', 'Please choose one from the below mentioned options of the game!', alertMessageOne);
+            alertRemoving('alert-row-one');
+        } else if (gameOption === 'singleplayer' && difficulty === '' && playerOneName.value === '') {
             alertCreating('alert-row-one', 'Please choose one from the below mentioned options of the game!', alertMessageOne);
             alertCreating('alert-row-two', 'Please insert your name(s)!', alertMessageTwo);
             alertRemoving('alert-row-one');
             alertRemoving('alert-row-two');
-        } else if (playerOneName.value === '') {
+        } else if(gameOption === 'multiplayer' && playerOneName.value === '' || playerTwoName.value === '' ){
             alertCreating('alert-row-two', 'Please insert your name(s)!', alertMessageTwo);
             alertRemoving('alert-row-two');
-        } else if(gameOption === '') {
-            alertCreating('alert-row-one', 'Please choose one from the below mentioned options of the game!', alertMessageOne);
-            alertRemoving('alert-row-one');
-        } else if(playerTwoName.value === ''){
-            alertCreating('alert-row-two', 'Please insert your name(s)!', alertMessageTwo);
-            alertRemoving('alert-row-two');
+        } else if(gameOption === 'multiplayer' && playerOneName.value !== '' && playerTwoName.value !== '' ){
+            return true;
         }
     }
     
@@ -61,7 +60,6 @@ const alerts = (() => {
 const buttonsFunctions = (() => {
     const optionButtons = document.querySelectorAll('.option-button');
     const optionButtonsMode = document.querySelectorAll('.option-button-mode');
-    const a = 5;
     
     const optionButtonsToggling =  (buttons, className) => {
        buttons.forEach(button => {
@@ -76,13 +74,25 @@ const buttonsFunctions = (() => {
     return {
         optionButtons,
         optionButtonsMode,
-        optionButtonsToggling,
+        optionButtonsToggling
     }
 
 })();
-
 buttonsFunctions.optionButtonsToggling(buttonsFunctions.optionButtons, 'clicked');
 buttonsFunctions.optionButtonsToggling(buttonsFunctions.optionButtonsMode, 'clicked-mode');
+
+
+let difficulty = '';
+const buttonDifficulty = () => {
+    console.log('hej')
+    document.querySelector('.buttons').addEventListener('click', e => {
+        if(e.target.tagName === 'BUTTON'){
+            difficulty = e.target.id;
+        }
+    })
+    return difficulty;
+}
+difficulty = buttonDifficulty();
 
 
 
@@ -95,3 +105,4 @@ function tooltipHandler (cell) {
     cell.appendChild(tip);
     setTimeout(() => cell.removeChild(tip),800);
  }
+

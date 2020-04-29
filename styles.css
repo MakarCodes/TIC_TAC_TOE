@@ -43,7 +43,7 @@ header h1 {
 }
 
 .game-mode {
-    width: 60%;
+    width: 100%;
     margin: 2% auto;
 }
 
@@ -54,8 +54,6 @@ header h1 {
 .name-multiplayer {
     display: none;
 }
-
-
 
 button {
     border: 1px solid black;
@@ -68,6 +66,7 @@ button {
     transition: 0.8s;
     position: relative;
     overflow: hidden;
+    width: 180px;
 }
 button:hover{
     color: white;
@@ -107,7 +106,7 @@ button.clicked {
 
 input{
     font-size: 1.1rem;
-    width: 60%;
+    width: 50%;
     border: 2px solid #aaa;
     border-radius: 4px;
     margin: 8px 0;
@@ -275,7 +274,8 @@ footer {
 }
 
 .winning-message button {
-    font-size: 3rem;
+    font-size: 2rem;
+    width: 250px;
     background-color: white;
     border: 1px solid black;
     padding: .25em .5em;
@@ -292,7 +292,7 @@ footer {
     display: flex;
 }
 
-#restartButton {
+#restartButton, #newGameButton  {
     margin-bottom: 15px;
 }
 
@@ -309,6 +309,7 @@ footer {
     margin: 0;
 }
 .alert-row-one p, .alert-row-two p {
+    font-size: 1.1rem;
     width: 100%;
     display: block;
     margin: 0;
@@ -341,3 +342,32 @@ footer {
     color: white;
 }
 
+@media (max-width: 768px) {
+    header {
+        height: 80px;
+    }
+    header h1 {
+        font-size: 60px;
+    }
+    input {
+        width: 90%;
+    }
+    .alert-row-one p, .alert-row-two p {
+        font-size: 0.9rem;
+    }
+
+    .winning-message{
+        font-size: 2rem;
+    }
+    button {
+        font-size: 0.8rem;
+    }
+
+    #restartButton, #newGameButton {
+        font-size: 1.5rem;
+    }
+
+    footer {
+        height: 80px;
+    }
+}

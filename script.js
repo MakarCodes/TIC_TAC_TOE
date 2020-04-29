@@ -1,6 +1,5 @@
 const X_CLASS = 'x';
 const CIRCLE_CLASS = 'circle';
-let gameOption = '';
 let board;
 let circleTurn; 
 const gameBoard = document.getElementById('board');
@@ -28,7 +27,6 @@ function startGame() {
  function handleClick(e) {
     const cell = e.target;
     if(cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS)){
-        // cell.removeEventListener('click', handleClick);
         tooltipHandler(cell);
     } else {
         const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS; // circleTurn is undefined, so it returns false
@@ -124,10 +122,12 @@ function startGame() {
     const optionGameFlow = (gameOption) => {
         if(gameOption === 'player-vs-computer-easy') {
             playerTwoName.value = 'AI player';
-            setTimeout(() => computerRandomMove.computerMove(circleTurn),200);
+            // setTimeout(() => computerRandomMove.computerMove(circleTurn),200);
+            computerRandomMove.computerMove(circleTurn);
         } else if (gameOption === 'player-vs-computer-hard') {
             playerTwoName.value = 'AI player';
-            setTimeout(() => computerSmartMove.computerMoveHard(circleTurn),200);
+            // setTimeout(() => computerSmartMove.computerMoveHard(circleTurn),200);
+            computerSmartMove.computerMoveHard(circleTurn);
         } else if (gameOption === 'multiplayer') {
             setBoardHoverClass();
         }
