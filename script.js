@@ -10,7 +10,6 @@ const playerOneName = document.querySelector('#name1');
 const playerTwoName = document.querySelector('#name2');
 const cellElements = Array.from(document.querySelectorAll('.cell'));
 
-
 function startGame() {
      circleTurn = false;
      board = [
@@ -122,11 +121,9 @@ function startGame() {
     const optionGameFlow = (gameOption) => {
         if(gameOption === 'player-vs-computer-easy') {
             playerTwoName.value = 'AI player';
-            // setTimeout(() => computerRandomMove.computerMove(circleTurn),200);
             computerRandomMove.computerMove(circleTurn);
         } else if (gameOption === 'player-vs-computer-hard') {
             playerTwoName.value = 'AI player';
-            // setTimeout(() => computerSmartMove.computerMoveHard(circleTurn),200);
             computerSmartMove.computerMoveHard(circleTurn);
         } else if (gameOption === 'multiplayer') {
             setBoardHoverClass();
@@ -154,7 +151,6 @@ function startGame() {
         setBoardHoverClass
     }
  })()
-
 
 const computerRandomMove = (() => {
 
@@ -188,7 +184,6 @@ const computerRandomMove = (() => {
     return { computerMove }
 })()
 
-
 const restartButton = document.getElementById('restartButton');
 const newGameButton = document.getElementById('newGameButton');
 const startGameButton = document.getElementById('start-game');
@@ -201,8 +196,8 @@ newGameButton.addEventListener('click', () => {
     playerOneName.value = '';
     playerTwoName.value = '';
     gameOption = '';
+    difficulty = '';
 })
-
 
 startGameButton.addEventListener('click', () => {
     if(alerts.playerDataValidation()) {
@@ -211,4 +206,7 @@ startGameButton.addEventListener('click', () => {
         startGame();
     }
 });
+
+
+
 
