@@ -1,41 +1,46 @@
 const singlePlayerBtn = document.querySelector('#singleplayer');
 const multiPlayerBtn = document.querySelector('#multiplayer');
-let singlePlayer = true;
-let gameOption = 'singleplayer';
+let gameOption = '';
 
 multiPlayerBtn.addEventListener('click', e => {
-  singlePlayer = false;
   document.querySelector('.computer-mode').style.display = 'none';
   document.querySelector('.name-multiplayer').style.display = 'block';
+  playerOneName.value = '';
+  playerTwoName.value = '';
 })
 
 singlePlayerBtn.addEventListener('click', e => {
-  singlePlayer = true;
   document.querySelector('.computer-mode').style.display = 'block';
   document.querySelector('.name-multiplayer').style.display = 'none';
+  playerOneName.value = '';
+  playerTwoName.value = '';
 })
 
 const alerts = (() => {
+    const alertMessageZero = document.getElementById('message-alert-zero');
     const alertMessageOne = document.getElementById('message-alert-one');
     const alertMessageTwo = document.getElementById('message-alert-two');
     
     const playerDataValidation = () => {
         if(gameOption !== '' && difficulty !== '' && playerOneName.value !== ''){
             return true;
-        } else if (gameOption === 'singleplayer' && difficulty === '' && playerOneName.value !== ''){
-            alertCreating('alert-row-one', 'Please choose one from the below mentioned options of the game!', alertMessageOne);
-            alertRemoving('alert-row-one');
-        } else if (gameOption === 'singleplayer' && difficulty === '' && playerOneName.value === '') {
-            alertCreating('alert-row-one', 'Please choose one from the below mentioned options of the game!', alertMessageOne);
-            alertCreating('alert-row-two', 'Please insert your name(s)!', alertMessageTwo);
-            alertRemoving('alert-row-one');
-            alertRemoving('alert-row-two');
-        } else if(gameOption === 'multiplayer' && playerOneName.value === '' || playerTwoName.value === '' ){
-            alertCreating('alert-row-two', 'Please insert your name(s)!', alertMessageTwo);
-            alertRemoving('alert-row-two');
         } else if(gameOption === 'multiplayer' && playerOneName.value !== '' && playerTwoName.value !== '' ){
             return true;
+        } else {
+            if (gameOption === '') {
+                alertCreating('alert-row-zero', 'Please select game mode!', alertMessageZero);
+                alertRemoving('alert-row-zero');
+            }
+            if (gameOption === 'singleplayer' && difficulty === '') {
+                alertCreating('alert-row-one', 'Please choose one from the below mentioned options of the game!', alertMessageOne);
+                alertRemoving('alert-row-one');
+            }
+            if (playerOneName.value === '') {
+                alertCreating('alert-row-two', 'Please insert your name(s)!', alertMessageTwo);
+                alertRemoving('alert-row-two');
+            }
         }
+
     }
     
     const alertRemoving = (className) => {
@@ -84,7 +89,6 @@ buttonsFunctions.optionButtonsToggling(buttonsFunctions.optionButtonsMode, 'clic
 
 let difficulty = '';
 const buttonDifficulty = () => {
-    console.log('hej')
     document.querySelector('.buttons').addEventListener('click', e => {
         if(e.target.tagName === 'BUTTON'){
             difficulty = e.target.id;
