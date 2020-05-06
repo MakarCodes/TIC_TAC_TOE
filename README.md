@@ -12,9 +12,10 @@ Project is created with:
 
 ## Screenshoots
 
-![Game-Settings](./img/Tic-Tac-Toe.PNG)
-![Game-Board](./img/Tic-Tac-Toe.PNG)
-![Game-Validation](./img/Tic-Tac-Toe.PNG)
+![Gif](./img/Tic-Tac-Toe.PNG)
+![Game-Settings](./img/vnmFwGcRjv.gif)
+![Game-Board](./img/Tic-Tac-Toe2.PNG)
+![Game-Validation](./img/Tic-Tac-Toe3.PNG)
 
 ## Live
 https://makarcodes.github.io/TIC_TAC_TOE/
