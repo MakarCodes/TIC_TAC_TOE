@@ -10,6 +10,12 @@ Project is created with:
 * CSS3
 * JavaScript
 
+## Screenshoots
+
+![Game-Settings](./img/Tic-Tac-Toe.PNG)
+![Game-Board](./img/Tic-Tac-Toe.PNG)
+![Game-Validation](./img/Tic-Tac-Toe.PNG)
+
 ## Live
 https://makarcodes.github.io/TIC_TAC_TOE/
 	
