@@ -9,6 +9,9 @@ Project is created with:
 * HTML5
 * CSS3
 * JavaScript
+
+## Live
+https://makarcodes.github.io/TIC_TAC_TOE/
 	
 ## Setup
 To run this project, install it locally using npm:
