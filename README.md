@@ -3,7 +3,6 @@ This is a Tic-Tac-Toe game.
 I incorporated a Player vs Player game mode as well as Player vs AI with two different difficulty levels. 
 The unbeatable AI  was built using the minimax algorithm.
 I've added also input fields validation.
-![Gif](./img/Tic-Tac-Toe.PNG)
 	
 ## Technologies
 Project is created with:
@@ -18,9 +17,8 @@ Project is created with:
 https://makarcodes.github.io/TIC_TAC_TOE/
 	
 ## Setup
-To run this project, install it locally using npm:
+To run this project, clone it and open with live server:
 ```
-$ cd ../tic_tac_toe
-$ npm install
-$ npm start
+$ cd to the folder where you want to download the project
+$ git clone https://github.com/MakarCodes/TIC_TAC_TOE.git
 ```
