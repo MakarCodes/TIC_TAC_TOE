@@ -3,6 +3,7 @@ This is a Tic-Tac-Toe game.
 I incorporated a Player vs Player game mode as well as Player vs AI with two different difficulty levels. 
 The unbeatable AI  was built using the minimax algorithm.
 I've added also input fields validation.
+![Gif](./img/Tic-Tac-Toe.PNG)
 	
 ## Technologies
 Project is created with:
@@ -11,11 +12,7 @@ Project is created with:
 * JavaScript
 
 ## Screenshoots
-
-![Gif](./img/Tic-Tac-Toe.PNG)
 ![Game-Settings](./img/vnmFwGcRjv.gif)
-![Game-Board](./img/Tic-Tac-Toe2.PNG)
-![Game-Validation](./img/Tic-Tac-Toe3.PNG)
 
 ## Live
 https://makarcodes.github.io/TIC_TAC_TOE/
